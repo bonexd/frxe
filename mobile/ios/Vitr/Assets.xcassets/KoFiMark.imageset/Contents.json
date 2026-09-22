@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "kofi-mark.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

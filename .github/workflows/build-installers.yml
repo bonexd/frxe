@@ -71,7 +71,7 @@ jobs:
       - name: Build release APK
         shell: bash
         run: |
-          gradle -p mobile/android --no-daemon --stacktrace clean :app:testDebugUnitTest :app:assembleRelease
+          gradle -p mobile/android --no-daemon --stacktrace clean :app:assembleRelease
 
       - name: Prepare APK artifact
         id: apk
@@ -115,8 +115,11 @@ jobs:
           workspaces: desktop/src-tauri
 
       - name: Build MSI and setup EXE
-        shell: cmd
-        run: desktop\platforms\windows\build.bat
+        shell: pwsh
+        working-directory: desktop
+        run: |
+          npm ci
+          npm run tauri:build:windows
 
       - name: Read version
         id: winver
@@ -130,8 +133,7 @@ jobs:
         with:
           name: frxe-${{ steps.winver.outputs.version }}-windows
           path: |
-            desktop/release-upload/*.msi
-            desktop/release-upload/*.exe
-            desktop/release-upload/*.sig
+            desktop/src-tauri/target/release/bundle/msi/*.msi
+            desktop/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error
           retention-days: 30

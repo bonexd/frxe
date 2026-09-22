@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Vitr"
 include(":app")
+include(":ciApp")

@@ -1,0 +1,29 @@
+{
+  "bloodvitr/vitr": {
+    "repo": "bloodvitr/vitr",
+    "defaultBranch": "main",
+    "treeSha": "",
+    "pushedAt": "",
+    "version": "0.1.0",
+    "name": "vitr",
+    "description": "Vitr liquid-glass music player by Blood",
+    "platforms": [
+      "Android"
+    ],
+    "capabilities": [
+      "Liquid Glass",
+      "Home",
+      "Search",
+      "Save",
+      "Library",
+      "Now Playing",
+      "Lyrics",
+      "Listen Together",
+      "Voice",
+      "Cast",
+      "Android Auto",
+      "Queue"
+    ],
+    "syncError": "https://api.github.com/repos/bloodvitr/vitr/git/trees/main?recursive=1 returned 409"
+  }
+}

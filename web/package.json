@@ -1,0 +1,29 @@
+{
+  "name": "vitr-web",
+  "private": true,
+  "version": "0.5.7",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "check": "node scripts/validate.mjs",
+    "adapt:sources": "node scripts/adapt-sources.mjs",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "build": "vite build",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:ci": "playwright test",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "youtube-dl-exec": "^3.1.15"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@vitejs/plugin-react": "^5.0.2",
+    "vite": "^7.1.5"
+  },
+  "license": "SEE LICENSE IN ../LICENSE",
+  "author": "Blood"
+}

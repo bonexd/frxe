@@ -1,0 +1,3 @@
+:where(button,a,input,[tabindex]):focus-visible{outline:2px solid #fff;outline-offset:3px}
+::selection{background:#fff;color:#000}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important;animation-iteration-count:1!important}.primary:hover,.secondary:hover{transform:none}}

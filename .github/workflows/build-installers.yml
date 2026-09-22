@@ -79,7 +79,14 @@ jobs:
         run: |
           VERSION="$(tr -d '\r\n' < VERSION)"
           mkdir -p artifacts/android
-          APK_PATH="$(find mobile/android/ciApp/build/outputs/apk/release -maxdepth 1 -type f -name '*.apk' | head -n 1)"\n          test -n "$APK_PATH"\n          cp "$APK_PATH" "artifacts/android/frxe-${VERSION}-android.apk"
+          echo "APK outputs:"
+          find mobile/android/ciApp/build/outputs -type f -name '*.apk' -print
+          APK_PATH="$(find mobile/android/ciApp/build/outputs -type f -name '*.apk' | head -n 1)"
+          if [ -z "$APK_PATH" ]; then
+            echo "No APK was produced."
+            exit 1
+          fi
+          cp "$APK_PATH" "artifacts/android/frxe-${VERSION}-android.apk"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK

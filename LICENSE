@@ -1,0 +1,83 @@
+Vitr Blood Attribution License 1.0
+
+Copyright (c) 2026 Blood.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+Vitr and its source code, binaries, assets, documentation, and related materials
+(the "Software"), to use, copy, run, study, modify, adapt, merge, publish,
+distribute, sublicense, sell, commercialize, and otherwise use or create
+derivative works from the Software for any purpose, subject to the conditions
+below.
+
+1. BLOOD ATTRIBUTION IN MODIFIED VERSIONS
+
+Any modified, forked, adapted, rebranded, or derivative version of the Software
+that is distributed, published, released, hosted, sold, shared, or otherwise
+made available to other people must include a visible and reasonably accessible
+attribution to "Blood" inside the resulting application.
+
+That attribution must include both of the following working links:
+
+GitHub: https://github.com/bloodvitr
+Ko-fi:  https://ko-fi.com/bloodvitr
+
+The attribution and both links must be present in the modified application on
+every platform, operating system, device type, build, edition, and version on
+which that modified application is made available.
+
+The attribution MUST appear visibly in the application's Settings screen.
+The Settings screen must visibly display "Blood" and both of these exact URLs:
+
+GitHub: https://github.com/bloodvitr
+Ko-fi:  https://ko-fi.com/bloodvitr
+
+Both URLs must be functional clickable or tappable links. This Settings
+attribution requirement applies to every modified version, fork, build,
+edition, platform, operating system, and device type on which the application
+is made available. Placing the attribution only in source files, documentation,
+an About page, a website, release notes, or another screen does not satisfy this
+requirement unless it is also present in Settings.
+
+The attribution and links may not be removed, hidden, intentionally obscured,
+made unreadable, replaced with misleading destinations, or restricted to only
+some supported versions or devices.
+
+2. SOURCE AND LICENSE NOTICE
+
+Copies or substantial portions of the Software's source code that are
+redistributed must retain this license notice.
+
+3. BRANDING
+
+This license does not require modified versions to use the Vitr name, logo,
+icons, or other Vitr branding. No trademark rights are granted by this license.
+
+The required "Blood" attribution described in Section 1 is a license condition
+and does not by itself grant permission to imply endorsement, sponsorship, or
+official status.
+
+4. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, BLOOD AND THE VITR PROJECT CONTRIBUTORS
+SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM,
+OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+5. TERMINATION
+
+The rights granted by this license terminate automatically for any person or
+entity that materially violates its conditions. Rights are restored when the
+violation is corrected, unless Blood has provided written notice that the
+violation will not be treated as cured.
+
+6. SEPARATE PERMISSION
+
+Blood may grant separate written permission that waives or changes one or more
+conditions of this license for a particular person, organization, or use.
+
+This is a custom license. It has not been submitted for approval by the Open
+Source Initiative.

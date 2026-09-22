@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Vitr droplet">
+  <defs>
+    <linearGradient id="vitrDrop" x1="0.24" y1="0.08" x2="0.78" y2="0.92">
+      <stop offset="0" stop-color="#ff416c"/>
+      <stop offset="0.48" stop-color="#e71349"/>
+      <stop offset="1" stop-color="#b80d38"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#vitrDrop)" d="M256 52c-77 0-142 43-165 106-28 75 13 142 65 213l100 129 100-129c52-71 93-138 65-213C398 95 333 52 256 52Z"/>
+</svg>

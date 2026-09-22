@@ -1,0 +1,22 @@
+{
+  "name": "vitr",
+  "private": true,
+  "version": "0.5.6",
+  "description": "vitr standalone UI for Windows",
+  "author": "Blood",
+  "scripts": {
+    "test": "node -e \"console.log('vitr standalone UI')\"",
+    "check": "npm test && node --test tests/sync-pairing-ui.test.mjs tests/release-053-playlists-reset-icon.test.mjs tests/release-054-sleep-timer.test.mjs tests/release-056-release-stability.test.mjs",
+    "icons": "tauri icon web/vitr-icon-down.svg --output src-tauri/icons",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build --bundles msi,nsis",
+    "tauri:build:windows": "npm run version:sync && powershell -NoProfile -ExecutionPolicy Bypass -File platforms/windows/generate-installer-art.ps1 && tauri build --bundles msi,nsis",
+    "version:sync": "node ../scripts/sync-version.mjs"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

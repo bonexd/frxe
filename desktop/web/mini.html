@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>vitr mini player</title>
+<style>
+:root{--red:#f22f5d;--red2:#ff5578;--panel:rgba(18,17,23,.78);--text:#f9f8fb;--muted:#aaa5b0;--line:rgba(255,255,255,.12)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;user-select:none}
+button{font:inherit;color:inherit}
+.shell{width:100%;height:100%;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.115),rgba(255,255,255,.028) 40%,rgba(6,5,8,.8)),var(--panel);border:1px solid var(--line);box-shadow:inset 0 1px rgba(255,255,255,.14),inset 0 -1px rgba(0,0,0,.22);-webkit-backdrop-filter:blur(28px) saturate(1.5);backdrop-filter:blur(28px) saturate(1.5)}
+body.normal .shell{background:#111116;border-color:#292730;-webkit-backdrop-filter:none;backdrop-filter:none}
+body[data-mode="standard"] .shell,body[data-mode="tiny"] .shell,body[data-mode="ultra"] .shell{border-radius:999px}
+body[data-mode="lyrics"] .shell{border-radius:24px}
+.content{position:relative;z-index:2;width:100%;height:100%;pointer-events:none}
+button,.menu,.menu *{pointer-events:auto}
+.cover{position:relative;overflow:hidden;background:linear-gradient(145deg,#17141a,#26131a 58%,#4b1022);background-size:cover;background-position:center}
+.cover.empty:before{content:"♪";position:absolute;inset:0;display:grid;place-items:center;color:#a79faa;font-size:18px}
+.title{font-weight:800;letter-spacing:-.025em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.artist{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.icon-btn{border:0;background:rgba(255,255,255,.07);display:grid;place-items:center;cursor:pointer;transition:.2s ease}
+.icon-btn:hover{background:rgba(242,47,93,.18);transform:translateY(-1px)}
+.play{background:linear-gradient(135deg,var(--red2),var(--red));box-shadow:0 7px 18px rgba(242,47,93,.3)}
+.progress{height:4px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.progress i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--red),#ff8aa2)}
+.standard{display:none;padding:8px 10px;grid-template-columns:68px minmax(0,1fr) auto;gap:10px;align-items:center}
+body[data-mode="standard"] .standard{display:grid;height:100%}
+.standard .cover{width:68px;height:68px;border-radius:50%}
+.standard .title{font-size:14px}.standard .artist{font-size:10px;margin-top:2px}
+.standard .track{min-width:0}.standard .progress{margin-top:8px}.standard .time{display:grid;grid-template-columns:auto minmax(52px,1fr) auto;align-items:center;gap:6px;color:#827d88;font-size:8px;margin-top:3px}.standard .time input[type="range"]{width:100%;height:10px;accent-color:var(--red);cursor:pointer}
+.standard .controls{display:grid;grid-template-columns:repeat(3,34px);gap:5px;padding-right:2px}.standard .icon-btn{width:34px;height:34px;border-radius:50%;font-size:11px}.standard .play{font-size:13px}
+.standard .mode{position:absolute;right:5px;top:4px;width:23px;height:23px;border-radius:50%;background:rgba(255,255,255,.055);border:0;cursor:pointer}
+.lyrics{display:none;padding:11px;grid-template-rows:auto 1fr auto;gap:7px;height:100%}
+body[data-mode="lyrics"] .lyrics{display:grid}
+.lyrics-head{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:8px;align-items:center}.lyrics-head .cover{width:38px;height:38px;border-radius:11px}.lyrics-head .title{font-size:11px}.lyrics-head .artist{font-size:8px}
+.lyrics-lines{display:grid;place-content:center;gap:6px;text-align:center;padding:4px 8px;overflow:hidden}
+.lyrics-lines span{font-size:11px;color:#77717e}.lyrics-lines .active{font-size:14px;color:#ff5578;font-weight:850}
+.lyrics-empty{font-size:11px;color:#8f8a95;text-align:center}
+.lyrics-foot .progress{margin-bottom:8px}.lyrics-controls{display:flex;justify-content:center;gap:9px}.lyrics-controls .icon-btn{width:31px;height:31px;border-radius:50%;font-size:10px}.lyrics-controls .play{width:38px;height:38px}
+.tiny,.ultra{display:none;height:100%;align-items:center;padding:5px 9px;gap:8px}
+body[data-mode="tiny"] .tiny{display:grid;grid-template-columns:40px minmax(0,1fr) auto}
+body[data-mode="ultra"] .ultra{display:flex;padding:4px 10px}
+.tiny .cover{width:40px;height:40px;border-radius:50%}.tiny .title{font-size:11px}.tiny .artist{font-size:8px;margin-top:1px}.tiny .icon-btn{width:32px;height:32px;border-radius:50%}
+.ultra .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(242,47,93,.6);flex:0 0 auto}.ultra .title{font-size:10px;flex:1;min-width:0}.ultra .icon-btn{width:26px;height:26px;border-radius:50%;font-size:9px}
+.mini-options{height:30px;max-width:94px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.06);color:#ddd9e2;font-size:9px;padding:0 7px;outline:none;cursor:pointer}
+.mini-options option{background:#17171d;color:#f4f1f6}.tiny .mini-options,.ultra .mini-options{max-width:72px;height:28px;padding:0 4px}
+</style>
+</head>
+<body data-mode="standard">
+<div class="shell" id="shell">
+  <div class="content">
+    <section class="standard">
+      <div class="cover empty" data-cover></div>
+      <div class="track"><div class="title" data-title>Nothing playing</div><div class="artist" data-artist>Open Vitr and play a track</div><div class="progress"><i></i></div><div class="time"><span>0:00</span><input data-mini-volume type="range" min="0" max="100" value="70" aria-label="Volume"><span>0:00</span></div></div>
+      <div class="controls"><button class="icon-btn" data-prev>◀</button><button class="icon-btn play" data-play>▶</button><button class="icon-btn" data-next>▶</button></div>
+      <select class="mini-options" data-mini-options aria-label="Mini player options">
+        <option value="">Options</option>
+        <option value="standard">Standard</option>
+        <option value="lyrics">Lyrics</option>
+        <option value="tiny">Tiny</option>
+        <option value="ultra">Ultra tiny</option>
+        <option value="open">Open Vitr</option>
+        <option value="hide">Hide mini</option>
+      </select>
+    </section>
+
+    <section class="lyrics">
+      <div class="lyrics-head"><div class="cover empty" data-cover></div><div><div class="title" data-title>Nothing playing</div><div class="artist" data-artist>Open Vitr and play a track</div></div><select class="mini-options" data-mini-options aria-label="Mini player options"><option value="">Options</option><option value="standard">Standard</option><option value="lyrics">Lyrics</option><option value="tiny">Tiny</option><option value="ultra">Ultra tiny</option><option value="open">Open Vitr</option><option value="hide">Hide mini</option></select></div>
+      <div class="lyrics-lines" id="lyricsLines"><div class="lyrics-empty">No lyrics available.</div></div>
+      <div class="lyrics-foot"><div class="progress"><i></i></div><div class="lyrics-controls"><button class="icon-btn" data-prev>◀</button><button class="icon-btn play" data-play>▶</button><button class="icon-btn" data-next>▶</button></div></div>
+    </section>
+
+    <section class="tiny"><div class="cover empty" data-cover></div><div><div class="title" data-title>Nothing playing</div><div class="artist" data-artist>Open Vitr</div></div><button class="icon-btn play" data-play>▶</button><select class="mini-options" data-mini-options aria-label="Mini player options"><option value="">⋮</option><option value="standard">Standard</option><option value="lyrics">Lyrics</option><option value="tiny">Tiny</option><option value="ultra">Ultra</option><option value="open">Open</option><option value="hide">Hide</option></select></section>
+    <section class="ultra"><div class="dot"></div><div class="title" data-title>Nothing playing</div><button class="icon-btn play" data-play>▶</button><select class="mini-options" data-mini-options aria-label="Mini player options"><option value="">⋮</option><option value="standard">Standard</option><option value="lyrics">Lyrics</option><option value="tiny">Tiny</option><option value="ultra">Ultra</option><option value="open">Open</option><option value="hide">Hide</option></select></section>
+  </div>
+</div>
+<script>
+(function(){
+  var invoke=window.__TAURI__&&window.__TAURI__.core&&window.__TAURI__.core.invoke;
+  var body=document.body,modes=["standard","lyrics","tiny","ultra"];
+  var lastLyricsKey="";
+
+  function clock(value){value=Math.max(0,Math.floor(Number(value)||0));return Math.floor(value/60)+":"+String(value%60).padStart(2,"0")}
+  function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback}catch(e){return fallback}}
+  function syncTheme(){body.classList.toggle("normal",localStorage.getItem("vitr-ui-mode")==="normal")}
+  function currentState(){return readJson("vitr-player-state",{track:null,playing:false,positionSeconds:0,durationSeconds:0,volume:.7})}
+  function coverUrl(track){return track&&(track.cover||track.artworkUrl||track.thumbnail)||""}
+
+  function renderLyrics(state){
+    var host=document.getElementById("lyricsLines"),payload=readJson("vitr-current-lyrics",null),key=JSON.stringify([state.track&&state.track.id,payload,state.positionSeconds|0]);
+    if(key===lastLyricsKey)return;lastLyricsKey=key;
+    var text=payload&&(payload.syncedLyrics||payload.synced_lyrics||payload.plainLyrics||payload.plain_lyrics||payload.lyrics||payload.text);
+    if(!text){host.innerHTML='<div class="lyrics-empty">No lyrics available.</div>';return}
+    var timed=[],plain=[];
+    String(text).split(/\r?\n/).forEach(function(line){
+      var m=line.match(/^\[(\d{1,3}):(\d{2}(?:\.\d{1,3})?)\]\s*(.*)$/);
+      if(m)timed.push({time:Number(m[1])*60+Number(m[2]),text:m[3]});else if(line.trim())plain.push(line.trim());
+    });
+    if(timed.length){
+      var idx=-1;for(var i=0;i<timed.length;i++){if(timed[i].time<=Number(state.positionSeconds||0))idx=i;else break}
+      var from=Math.max(0,idx-2),to=Math.min(timed.length,idx+3);
+      host.innerHTML=timed.slice(from,to).map(function(row,j){return '<span class="'+(from+j===idx?'active':'')+'">'+escapeHtml(row.text||"♪")+'</span>'}).join("");
+    }else{
+      host.innerHTML=plain.slice(0,5).map(function(line,i){return '<span class="'+(i===0?'active':'')+'">'+escapeHtml(line)+'</span>'}).join("")||'<div class="lyrics-empty">No lyrics available.</div>';
+    }
+  }
+  function escapeHtml(v){return String(v||"").replace(/[&<>"']/g,function(ch){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]})}
+  function syncState(){
+    var state=currentState(),track=state.track||null,has=!!(track&&track.title),art=coverUrl(track),pct=state.durationSeconds?Math.max(0,Math.min(100,state.positionSeconds/state.durationSeconds*100)):0;
+    document.querySelectorAll("[data-title]").forEach(function(el){el.textContent=has?track.title:"Nothing playing"});
+    document.querySelectorAll("[data-artist]").forEach(function(el){el.textContent=has?(track.artist||"Unknown artist"):"Open Vitr and play a track"});
+    document.querySelectorAll("[data-play]").forEach(function(el){el.textContent=state.playing?"❚❚":"▶"});document.querySelectorAll("[data-mini-volume]").forEach(function(el){el.value=String(Math.round(Math.max(0,Math.min(1,Number(state.volume==null?0.7:state.volume)))*100))});
+    document.querySelectorAll(".progress i").forEach(function(el){el.style.width=pct+"%"});
+    document.querySelectorAll(".time").forEach(function(el){var spans=el.querySelectorAll("span");if(spans[0])spans[0].textContent=clock(state.positionSeconds);if(spans[1])spans[1].textContent=clock(state.durationSeconds)});
+    document.querySelectorAll("[data-cover]").forEach(function(el){el.classList.toggle("empty",!art);el.style.backgroundImage=art?'url("'+String(art).replace(/"/g,"%22")+'")':""});
+    renderLyrics(state);
+  }
+
+  async function setMode(mode){if(modes.indexOf(mode)<0)mode="standard";body.dataset.mode=mode;localStorage.setItem("vitr-mini-mode",mode);if(invoke)try{await invoke("set_mini_mode",{mode:mode});await invoke("dock_mini_player",{side:"right"})}catch(e){}}
+  async function dockRight(){if(invoke)try{await invoke("dock_mini_player",{side:"right"})}catch(e){}}
+  function action(name){if(invoke)invoke("mini_player_action",{action:name}).catch(function(){})}
+
+  document.querySelectorAll("[data-play]").forEach(function(el){el.addEventListener("click",function(e){e.stopPropagation();action("toggle")})});
+  document.querySelectorAll("[data-mini-volume]").forEach(function(el){el.addEventListener("input",function(e){e.stopPropagation();if(!invoke)return;var state=currentState(),target=Math.max(0,Math.min(1,Number(el.value)/100)),current=Math.max(0,Math.min(1,Number(state.volume==null?0.7:state.volume)));invoke("mini_player_volume",{delta:target-current}).catch(function(){})})});
+  document.querySelectorAll("[data-prev]").forEach(function(el){el.addEventListener("click",function(e){e.stopPropagation();action("previous")})});
+  document.querySelectorAll("[data-next]").forEach(function(el){el.addEventListener("click",function(e){e.stopPropagation();action("next")})});
+  document.querySelectorAll("[data-mini-options]").forEach(function(el){el.addEventListener("change",function(e){e.stopPropagation();var value=el.value;el.value="";if(modes.indexOf(value)>=0){setMode(value);return}if(value==="open"&&invoke)invoke("show_main_window").catch(function(){});if(value==="hide"){localStorage.setItem("vitr-mini-enabled","false");if(invoke)invoke("hide_mini_player").catch(function(){})}})});
+  document.getElementById("shell").addEventListener("dblclick",function(e){if(e.target.closest("button,select,input"))return;if(invoke)invoke("show_main_window").catch(function(){})});
+  document.addEventListener("wheel",function(e){if(Math.abs(e.deltaY)<1||!invoke)return;invoke("mini_player_volume",{delta:e.deltaY<0?.04:-.04}).catch(function(){})},{passive:true});
+
+  syncTheme();syncState();localStorage.setItem("vitr-mini-enabled","true");localStorage.setItem("vitr-mini-dock","right");localStorage.setItem("vitr-mini-on-top","true");
+  setMode(localStorage.getItem("vitr-mini-mode")||"standard").then(dockRight);
+  if(invoke)invoke("set_mini_always_on_top",{enabled:true}).catch(function(){});
+  setInterval(function(){syncTheme();syncState();dockRight()},1000);
+})();
+</script>
+</body>
+</html>

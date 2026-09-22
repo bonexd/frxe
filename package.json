@@ -1,0 +1,31 @@
+{
+  "name": "vitr-monorepo",
+  "private": true,
+  "version": "0.5.6",
+  "type": "module",
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "check": "npm run parity:check && npm run web:check && npm run desktop:check",
+    "web:install": "npm --prefix web install --no-audit --no-fund",
+    "web:dev": "npm --prefix web run dev",
+    "web:check": "npm --prefix web run check && npm --prefix web run test:unit",
+    "web:test": "npm --prefix web run test:unit",
+    "web:e2e": "npm --prefix web run test:e2e",
+    "web:build": "npm --prefix web run build",
+    "desktop:install": "npm --prefix desktop ci",
+    "desktop:dev": "npm --prefix desktop run tauri:dev",
+    "desktop:check": "npm --prefix desktop run check",
+    "desktop:test": "npm --prefix desktop test",
+    "desktop:build": "npm --prefix desktop run tauri:build",
+    "desktop:build:windows": "npm --prefix desktop run tauri:build:windows",
+    "desktop:build:linux": "npm --prefix desktop run tauri:build:linux",
+    "desktop:build:macos": "npm --prefix desktop run tauri:build:macos",
+    "android:build": "gradle -p mobile/android clean :app:assembleRelease",
+    "ios:build": "xcodebuild -project mobile/ios/Vitr.xcodeproj -scheme Vitr -configuration Release -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build",
+    "version:sync": "node scripts/sync-version.mjs",
+    "parity:check": "node scripts/check-feature-parity.mjs"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Blood"
+}

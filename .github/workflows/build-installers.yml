@@ -71,7 +71,7 @@ jobs:
       - name: Build release APK
         shell: bash
         run: |
-          gradle -p mobile/android --no-daemon --stacktrace clean :app:assembleRelease
+          gradle -p mobile/android --no-daemon --stacktrace clean :ciApp:assembleRelease
 
       - name: Prepare APK artifact
         id: apk
@@ -79,7 +79,7 @@ jobs:
         run: |
           VERSION="$(tr -d '\r\n' < VERSION)"
           mkdir -p artifacts/android
-          cp mobile/android/app/build/outputs/apk/release/app-release.apk "artifacts/android/frxe-${VERSION}-android.apk"
+          APK_PATH="$(find mobile/android/ciApp/build/outputs/apk/release -maxdepth 1 -type f -name '*.apk' | head -n 1)"\n          test -n "$APK_PATH"\n          cp "$APK_PATH" "artifacts/android/frxe-${VERSION}-android.apk"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK
@@ -119,6 +119,7 @@ jobs:
         working-directory: desktop
         run: |
           npm ci
+          npx --no-install tauri icon web/vitr-icon.png --output src-tauri/icons
           npm run tauri:build:windows
 
       - name: Read version
